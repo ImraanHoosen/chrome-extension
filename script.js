@@ -7,12 +7,12 @@ const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
 
 //Add an event listener to the button that will add the input value to the array when clicked
+//Then render the list of leads on the page and clear the input field
 inputBtn.addEventListener("click", function () {
   myLeads.push(inputEl.value);
-
-  renderLeads(); //Render the list of leads on the page
+  renderLeads();
+  inputEl.value = "";
 });
-
 //Create a string of list items from the array and add it to the unordered list
 function renderLeads() {
   let listItems = "";
