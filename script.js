@@ -13,11 +13,28 @@ inputBtn.addEventListener("click", function () {
   renderLeads();
   inputEl.value = "";
 });
-//Create a string of list items from the array and add it to the unordered list
+
+/**
+ * Renders the list of leads as clickable links in the unordered list element.
+ * Iterates over the myLeads array and creates list items with links for each lead.
+ * Updates the innerHTML of the ulEl with the generated list items.
+ */
 function renderLeads() {
+  // Initialize an empty string to accumulate list items
   let listItems = "";
+
+  // Loop through each lead in the myLeads array
   for (let i = 0; i < myLeads.length; i++) {
-    listItems += "<li>" + myLeads[i] + "</li>";
+    // Append a list item with a link to the listItems string
+    listItems += `
+    <li>
+      <a target='_blank' href='${myLeads[i]}'>
+        ${myLeads[i]}
+      </a>
+    </li>
+    `;
   }
+
+  // Update the unordered list's innerHTML with the accumulated list items
   ulEl.innerHTML = listItems;
 }
