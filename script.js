@@ -1,3 +1,4 @@
+// Section 1: Setting up the initial state of the application
 let myLeads = [];
 
 const inputEl = document.getElementById("input-el");
@@ -12,6 +13,7 @@ if (leadsFromLocalStorage) {
   render(myLeads);
 }
 
+// Section 2: Adding a new lead from the user's input
 inputBtn.addEventListener("click", function () {
   myLeads.push(inputEl.value);
   inputEl.value = "";
@@ -19,6 +21,7 @@ inputBtn.addEventListener("click", function () {
   render(myLeads);
 });
 
+// Section 3: Adding a new lead from the user's currently active tab
 tabBtn.addEventListener("click", function () {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     myLeads.push(tabs[0].url);
@@ -27,12 +30,14 @@ tabBtn.addEventListener("click", function () {
   });
 });
 
+// Section 4: Deleting all leads when the user double-clicks the delete button
 deleteBtn.addEventListener("dblclick", function () {
   localStorage.clear();
   myLeads = [];
   render(myLeads);
 });
 
+// Section 5: Rendering the leads list
 function render(leads) {
   let listItems = "";
   for (let i = 0; i < myLeads.length; i++) {
