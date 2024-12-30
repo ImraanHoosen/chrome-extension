@@ -24,6 +24,13 @@ button {
   box-shadow: 2px 2px 3px black;
 }
 
+#tab-btn {
+  border: 1px solid black;
+  background: #fad51c;
+  color: #ffff;
+  box-shadow: 2px 2px 3px black;
+}
+
 #delete-btn {
   border: 1px solid black;
   background: rgb(242, 0, 0);
