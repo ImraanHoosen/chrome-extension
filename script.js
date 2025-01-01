@@ -1,54 +1,49 @@
+let myLeads = []
+const inputEl = document.getElementById("input-el")
+const inputBtn = document.getElementById("input-btn")
+const ulEl = document.getElementById("ul-el")
+const deleteBtn = document.getElementById("delete-btn")
+const leadsFromLocalStorage = JSON.parse( localStorage.getItem("myLeads") )
+const tabBtn = document.getElementById("tab-btn")
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import {
-  getDatabase,
-  ref,
-  push,
-  onValue,
-} from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+if (leadsFromLocalStorage) {
+    myLeads = leadsFromLocalStorage
+    render(myLeads)
+}
 
-const firebaseConfig = {
-  databaseURL:
-    "https://tab-grabber-application-default-rtdb.europe-west1.firebasedatabase.app/",
-};
+inputBtn.addEventListener("click", function() {
+  myLeads.push(inputEl.value)
+  inputEl.value = ""
+  localStorage.setItem("myLeads", JSON.stringify(myLeads) )
+  render(myLeads)
+})
 
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-const referenceInDB = ref(database, "leads");
-//
-//
-//
-// Section 1: Setting up the initial state of the application
 
-const inputEl = document.getElementById("input-el");
-const inputBtn = document.getElementById("input-btn");
-const ulEl = document.getElementById("ul-el");
-const deleteBtn = document.getElementById("delete-btn");
+tabBtn.addEventListener("click", function(){    
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        myLeads.push(tabs[0].url)
+        localStorage.setItem("myLeads", JSON.stringify(myLeads) )
+        render(myLeads)
+    })
+})
 
-onValue(referenceInDB, function (snapshot) {
-  console.log(snapshot.val());
-});
 
-// Section 2: Adding a new lead from the user's input
-inputBtn.addEventListener("click", function () {
-  push(referenceInDB, inputEl.value);
-  inputEl.value = "";
-});
+deleteBtn.addEventListener("dblclick", function() {
+    localStorage.clear()
+    myLeads = []
+    render(myLeads)
+})
 
-// Section 4: Deleting all leads when the user double-clicks the delete button
-deleteBtn.addEventListener("dblclick", function () {});
-
-// Section 5: Rendering the leads list
 function render(leads) {
-  let listItems = "";
-  for (let i = 0; i < myLeads.length; i++) {
-    listItems += `
-    <li>
-      <a target='_blank' href='${leads[i]}'>
-        ${leads[i]}
-      </a>
-    </li>
-    `;
+  let listItems = ""
+  for (let i = 0; i < leads.length; i++) {
+      listItems += `
+          <li>
+              <a target='_blank' href='${leads[i]}'>
+                  ${leads[i]}
+              </a>
+          </li>
+      `
   }
-  ulEl.innerHTML = listItems;
+  ulEl.innerHTML = listItems
 }
