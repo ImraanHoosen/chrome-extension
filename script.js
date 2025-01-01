@@ -3,6 +3,7 @@ import {
   getDatabase,
   ref,
   push,
+  onValue,
 } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
 
 const firebaseConfig = {
@@ -22,6 +23,10 @@ const inputEl = document.getElementById("input-el");
 const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
 const deleteBtn = document.getElementById("delete-btn");
+
+onValue(referenceInDB, function (snapshot) {
+  console.log(snapshot.val());
+});
 
 // Section 2: Adding a new lead from the user's input
 inputBtn.addEventListener("click", function () {
